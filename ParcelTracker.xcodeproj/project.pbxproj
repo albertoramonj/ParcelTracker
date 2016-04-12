@@ -14,6 +14,10 @@
 		6140DDA11CBC20B20076DAFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6140DD9F1CBC20B20076DAFD /* LaunchScreen.storyboard */; };
 		6140DDAC1CBC20B20076DAFD /* ParcelTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDAB1CBC20B20076DAFD /* ParcelTrackerTests.swift */; };
 		6140DDB71CBC20B20076DAFD /* ParcelTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDB61CBC20B20076DAFD /* ParcelTrackerUITests.swift */; };
+		6140DDCA1CBC21410076DAFD /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDC91CBC21410076DAFD /* ApiManager.swift */; };
+		6140DDCC1CBC21AD0076DAFD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDCB1CBC21AD0076DAFD /* Constants.swift */; };
+		6140DDCE1CBC225A0076DAFD /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDCD1CBC225A0076DAFD /* Tracking.swift */; };
+		6140DDD01CBC360A0076DAFD /* Checkpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDCF1CBC360A0076DAFD /* Checkpoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		6140DDB21CBC20B20076DAFD /* ParcelTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParcelTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6140DDB61CBC20B20076DAFD /* ParcelTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParcelTrackerUITests.swift; sourceTree = "<group>"; };
 		6140DDB81CBC20B20076DAFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6140DDC91CBC21410076DAFD /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		6140DDCB1CBC21AD0076DAFD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6140DDCD1CBC225A0076DAFD /* Tracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracking.swift; sourceTree = "<group>"; };
+		6140DDCF1CBC360A0076DAFD /* Checkpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkpoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,12 +105,11 @@
 		6140DD951CBC20B20076DAFD /* ParcelTracker */ = {
 			isa = PBXGroup;
 			children = (
-				6140DD961CBC20B20076DAFD /* AppDelegate.swift */,
-				6140DD981CBC20B20076DAFD /* ViewController.swift */,
-				6140DD9A1CBC20B20076DAFD /* Main.storyboard */,
-				6140DD9D1CBC20B20076DAFD /* Assets.xcassets */,
-				6140DD9F1CBC20B20076DAFD /* LaunchScreen.storyboard */,
-				6140DDA21CBC20B20076DAFD /* Info.plist */,
+				6140DDC61CBC210E0076DAFD /* Controller */,
+				6140DDC41CBC20FC0076DAFD /* Model */,
+				6140DDC71CBC211F0076DAFD /* Support Files */,
+				6140DDC81CBC212F0076DAFD /* Utils */,
+				6140DDC51CBC21030076DAFD /* View */,
 			);
 			path = ParcelTracker;
 			sourceTree = "<group>";
@@ -123,6 +130,51 @@
 				6140DDB81CBC20B20076DAFD /* Info.plist */,
 			);
 			path = ParcelTrackerUITests;
+			sourceTree = "<group>";
+		};
+		6140DDC41CBC20FC0076DAFD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6140DDC91CBC21410076DAFD /* ApiManager.swift */,
+				6140DDCD1CBC225A0076DAFD /* Tracking.swift */,
+				6140DDCF1CBC360A0076DAFD /* Checkpoint.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		6140DDC51CBC21030076DAFD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6140DD9A1CBC20B20076DAFD /* Main.storyboard */,
+				6140DD9F1CBC20B20076DAFD /* LaunchScreen.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		6140DDC61CBC210E0076DAFD /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6140DD981CBC20B20076DAFD /* ViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		6140DDC71CBC211F0076DAFD /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				6140DD961CBC20B20076DAFD /* AppDelegate.swift */,
+				6140DD9D1CBC20B20076DAFD /* Assets.xcassets */,
+				6140DDA21CBC20B20076DAFD /* Info.plist */,
+			);
+			name = "Support Files";
+			sourceTree = "<group>";
+		};
+		6140DDC81CBC212F0076DAFD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6140DDCB1CBC21AD0076DAFD /* Constants.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,8 +308,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6140DDCE1CBC225A0076DAFD /* Tracking.swift in Sources */,
 				6140DD991CBC20B20076DAFD /* ViewController.swift in Sources */,
+				6140DDCA1CBC21410076DAFD /* ApiManager.swift in Sources */,
 				6140DD971CBC20B20076DAFD /* AppDelegate.swift in Sources */,
+				6140DDCC1CBC21AD0076DAFD /* Constants.swift in Sources */,
+				6140DDD01CBC360A0076DAFD /* Checkpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

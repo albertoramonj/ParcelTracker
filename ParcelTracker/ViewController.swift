@@ -12,7 +12,13 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let api = APIManager()
+        api.getTracking("ups", trackingNumber: "1Z12345E1512345676", completion: didGetTracking)
+    }
+    
+    func didGetTracking(tracking: Tracking) {
+        print(tracking._carrier)
     }
 
     override func didReceiveMemoryWarning() {

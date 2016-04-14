@@ -133,17 +133,23 @@
                                     <action selector="addTracking:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mp7-eG-9Yx"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="uGV-PD-6ha">
+                                <rect key="frame" x="328" y="80" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ke5-yI-Qbn" firstAttribute="centerY" secondItem="ucu-If-9bL" secondAttribute="centerY" id="3M6-cW-mWG"/>
                             <constraint firstItem="ucu-If-9bL" firstAttribute="leading" secondItem="ke5-yI-Qbn" secondAttribute="trailing" constant="8" symbolic="YES" id="3oV-jS-C5v"/>
+                            <constraint firstItem="uGV-PD-6ha" firstAttribute="centerY" secondItem="ucu-If-9bL" secondAttribute="centerY" id="8uZ-3k-AEM"/>
                             <constraint firstItem="p6q-YJ-cXt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="CJg-gY-o21"/>
                             <constraint firstItem="p6q-YJ-cXt" firstAttribute="top" secondItem="ke5-yI-Qbn" secondAttribute="bottom" constant="9" id="KiA-3H-Bts"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ucu-If-9bL" secondAttribute="trailing" constant="4" id="LB3-Ly-7vX"/>
                             <constraint firstItem="p6q-YJ-cXt" firstAttribute="top" secondItem="ucu-If-9bL" secondAttribute="bottom" constant="7" id="WZ2-Cm-ate"/>
                             <constraint firstAttribute="trailing" secondItem="p6q-YJ-cXt" secondAttribute="trailing" id="Zxm-a2-8LT"/>
                             <constraint firstItem="ke5-yI-Qbn" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="4" id="ded-JV-4S6"/>
+                            <constraint firstItem="uGV-PD-6ha" firstAttribute="centerX" secondItem="ucu-If-9bL" secondAttribute="centerX" id="eAT-gn-9Xr"/>
                             <constraint firstItem="p6q-YJ-cXt" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="guf-8w-eue"/>
                             <constraint firstItem="ucu-If-9bL" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="9" id="rw8-Og-Tjg"/>
                         </constraints>
@@ -151,6 +157,7 @@
                     <navigationItem key="navigationItem" id="QOh-0d-EK7"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="uGV-PD-6ha" id="ENw-bJ-COP"/>
                         <outlet property="addButton" destination="ucu-If-9bL" id="dBO-gm-sMX"/>
                         <outlet property="tableView" destination="p6q-YJ-cXt" id="kwr-au-Q8F"/>
                         <outlet property="trackingNumberTextField" destination="ke5-yI-Qbn" id="ba9-GA-87a"/>

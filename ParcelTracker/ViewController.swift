@@ -20,11 +20,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var trackingNumberTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: Actions
     @IBAction func addTracking(sender: AnyObject) {
         //If text is not empty and the courier is a valid one
         if trackingNumberTextField.text != "" && api.getCourier(trackingNumberTextField.text!) != "" {
+            addButton.hidden = true
+            activityIndicator.startAnimating()
             api.getTracking(trackingNumberTextField.text!, completion: didGetTracking)
         }
     }
@@ -58,6 +61,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         trackings.append(tracking)
         tableView.reloadData()
         randomizeTrackingNumber()
+        activityIndicator.stopAnimating()
+        addButton.hidden = false
     }
     
     func textFieldDidChange(textField: UITextField) {

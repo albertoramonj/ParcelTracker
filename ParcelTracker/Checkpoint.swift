@@ -11,7 +11,7 @@ import Foundation
 class Checkpoint {
     private(set) var _status: String
     private(set) var _statusDetails: String
-    private(set) var _statusDate: NSDate
+    private(set) var _statusDate: String
     private(set) var _location: String
     
     init(data: JSONDictionary) {
@@ -27,10 +27,19 @@ class Checkpoint {
             _statusDetails = ""
         }
         
-        if let statusDate = data["status_date"] as? NSDate {
-            self._statusDate = statusDate
+        if let statusDate = data["status_date"] as? String {
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            let date = dateFormatter.dateFromString(statusDate)
+            if date != nil {
+                dateFormatter.dateFormat = "YYYY/MM/dd - HH:mm"
+                let formatedDate = dateFormatter.stringFromDate(date!)
+                self._statusDate = formatedDate
+            } else {
+                _statusDate = ""
+            }
         } else {
-            _statusDate = NSDate()
+            _statusDate = ""
         }
         
         if let location = data["location"] as? JSONDictionary,

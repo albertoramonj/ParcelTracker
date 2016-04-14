@@ -8,15 +8,42 @@
 
 import UIKit
 
+var reachability: Reachability?
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var internetCheck: Reachability?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        #if swift(>=2.2)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.reachabilityChanged(_:)), name: kReachabilityChangedNotification, object: nil)
+        #else
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: kReachabilityChangedNotification, object: nil)
+        #endif
+        
+        internetCheck = Reachability.reachabilityForInternetConnection()
+        internetCheck?.startNotifier()
+        
+        statusChangedWithReachability(internetCheck!)
+        
         return true
+    }
+    
+    func reachabilityChanged(notification: NSNotification) {
+        reachability = notification.object as? Reachability
+        statusChangedWithReachability(reachability!)
+    }
+    
+    func statusChangedWithReachability(currentReachabilityStatus: Reachability) {
+        let networkStatus: NetworkStatus = currentReachabilityStatus.currentReachabilityStatus()
+        
+        print("Status value: \(networkStatus.rawValue)")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("ReachabilityStatusChanged", object:nil, userInfo:["networkStatusRawValue" : networkStatus.rawValue])
     }
 
     func applicationWillResignActive(application: UIApplication) {

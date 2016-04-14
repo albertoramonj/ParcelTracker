@@ -18,6 +18,8 @@
 		6140DDCC1CBC21AD0076DAFD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDCB1CBC21AD0076DAFD /* Constants.swift */; };
 		6140DDCE1CBC225A0076DAFD /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDCD1CBC225A0076DAFD /* Tracking.swift */; };
 		6140DDD01CBC360A0076DAFD /* Checkpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDCF1CBC360A0076DAFD /* Checkpoint.swift */; };
+		6140DDD81CBFC0080076DAFD /* TrackingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDD71CBFC0080076DAFD /* TrackingTableViewCell.swift */; };
+		6140DDE41CBFF2640076DAFD /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDE31CBFF2640076DAFD /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,10 @@
 		6140DDCB1CBC21AD0076DAFD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6140DDCD1CBC225A0076DAFD /* Tracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracking.swift; sourceTree = "<group>"; };
 		6140DDCF1CBC360A0076DAFD /* Checkpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkpoint.swift; sourceTree = "<group>"; };
+		6140DDD71CBFC0080076DAFD /* TrackingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingTableViewCell.swift; sourceTree = "<group>"; };
+		6140DDE11CBFF2630076DAFD /* ParcelTracker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ParcelTracker-Bridging-Header.h"; sourceTree = "<group>"; };
+		6140DDE21CBFF2640076DAFD /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		6140DDE31CBFF2640076DAFD /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,7 @@
 		6140DD951CBC20B20076DAFD /* ParcelTracker */ = {
 			isa = PBXGroup;
 			children = (
+				6140DDDA1CBFF1AD0076DAFD /* Obj-C */,
 				6140DDC61CBC210E0076DAFD /* Controller */,
 				6140DDC41CBC20FC0076DAFD /* Model */,
 				6140DDC71CBC211F0076DAFD /* Support Files */,
@@ -155,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				6140DD981CBC20B20076DAFD /* ViewController.swift */,
+				6140DDD71CBFC0080076DAFD /* TrackingTableViewCell.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -175,6 +183,16 @@
 				6140DDCB1CBC21AD0076DAFD /* Constants.swift */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		6140DDDA1CBFF1AD0076DAFD /* Obj-C */ = {
+			isa = PBXGroup;
+			children = (
+				6140DDE21CBFF2640076DAFD /* Reachability.h */,
+				6140DDE31CBFF2640076DAFD /* Reachability.m */,
+				6140DDE11CBFF2630076DAFD /* ParcelTracker-Bridging-Header.h */,
+			);
+			path = "Obj-C";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,6 +327,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6140DDCE1CBC225A0076DAFD /* Tracking.swift in Sources */,
+				6140DDD81CBFC0080076DAFD /* TrackingTableViewCell.swift in Sources */,
+				6140DDE41CBFF2640076DAFD /* Reachability.m in Sources */,
 				6140DD991CBC20B20076DAFD /* ViewController.swift in Sources */,
 				6140DDCA1CBC21410076DAFD /* ApiManager.swift in Sources */,
 				6140DD971CBC20B20076DAFD /* AppDelegate.swift in Sources */,
@@ -457,10 +477,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ParcelTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arj.ParcelTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ParcelTracker/Obj-C/ParcelTracker-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -468,10 +491,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ParcelTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arj.ParcelTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ParcelTracker/Obj-C/ParcelTracker-Bridging-Header.h";
 			};
 			name = Release;
 		};

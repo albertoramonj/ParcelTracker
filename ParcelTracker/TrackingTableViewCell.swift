@@ -8,9 +8,11 @@
 
 import UIKit
 
+
+
 class TrackingTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var courierLabel: UILabel!
+    @IBOutlet weak var courierImageView: UIImageView!
     @IBOutlet weak var trackingNumberLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var statusDetailLabel: UILabel!
@@ -23,7 +25,7 @@ class TrackingTableViewCell: UITableViewCell {
     }
     
     func updateCell() {
-        courierLabel.text = tracking!._carrier
+        courierImageView.image = UIImage(named: tracking!._courierLogo)
         trackingNumberLabel.text = tracking!._trackingNumber
         dateLabel.text = "\(tracking!._trackingStatus._statusDate)"
         statusDetailLabel.text = "\(tracking!._trackingStatus._status)"

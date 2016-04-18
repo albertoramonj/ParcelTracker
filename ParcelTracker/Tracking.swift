@@ -8,8 +8,9 @@
 
 import Foundation
 
-class Tracking {
-    private(set) var _carrier:String
+class Tracking: NSObject {
+    private(set) var _courier:String
+    private(set) var _courierLogo:String
     private(set) var _trackingNumber:String
     private(set) var _trackingStatus:Checkpoint
     private(set) var _trackingHistory:[Checkpoint]
@@ -17,9 +18,20 @@ class Tracking {
     init(data: JSONDictionary) {
         
         if let carrier = data["carrier"] as? String {
-            self._carrier = carrier
+            self._courier = carrier
         } else {
-            _carrier = ""
+            _courier = ""
+        }
+        
+        switch _courier {
+            case "ups":
+                _courierLogo = "ups_logo.png"
+            case "usps":
+                _courierLogo = "usps_logo.png"
+            case "fedex":
+                _courierLogo = "fedex_logo.png"
+            default:
+                _courierLogo = ""
         }
         
         if let trackingNumber = data["tracking_number"] as? String {
@@ -45,5 +57,21 @@ class Tracking {
         } else {
             self._trackingHistory = Array()
         }
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        _courier = aDecoder.decodeObjectForKey("_courier") as! String
+        _courierLogo = aDecoder.decodeObjectForKey("_courierLogo") as! String
+        _trackingNumber = aDecoder.decodeObjectForKey("_trackingNumber") as! String
+        _trackingStatus = aDecoder.decodeObjectForKey("_trackingStatus") as! Checkpoint
+        _trackingHistory = aDecoder.decodeObjectForKey("_trackingHistory") as! [Checkpoint]
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(_courier, forKey: "_courier")
+        aCoder.encodeObject(_courierLogo, forKey: "_courierLogo")
+        aCoder.encodeObject(_trackingNumber, forKey: "_trackingNumber")
+        aCoder.encodeObject(_trackingStatus, forKey: "_trackingStatus")
+        aCoder.encodeObject(_trackingHistory, forKey: "_trackingHistory")
     }
 }

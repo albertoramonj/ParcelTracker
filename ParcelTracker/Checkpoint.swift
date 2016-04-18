@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Checkpoint {
+class Checkpoint: NSObject {
     private(set) var _status: String
     private(set) var _statusDetails: String
     private(set) var _statusDate: String
@@ -48,5 +48,19 @@ class Checkpoint {
         } else {
             _location = ""
         }
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        _status = aDecoder.decodeObjectForKey("_status") as! String
+        _statusDetails = aDecoder.decodeObjectForKey("_statusDetails") as! String
+        _statusDate = aDecoder.decodeObjectForKey("_statusDate") as! String
+        _location = aDecoder.decodeObjectForKey("_location") as! String
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(_status, forKey: "_status")
+        aCoder.encodeObject(_statusDetails, forKey: "_statusDetails")
+        aCoder.encodeObject(_statusDate, forKey: "_statusDate")
+        aCoder.encodeObject(_location, forKey: "_location")
     }
 }

@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6126BE981CC63D6600E365F3 /* DetailTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126BE971CC63D6600E365F3 /* DetailTVC.swift */; };
+		6126BE9A1CC63ED600E365F3 /* CheckpointTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126BE991CC63ED600E365F3 /* CheckpointTableViewCell.swift */; };
+		6126BE9C1CC64B0800E365F3 /* CheckpointHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126BE9B1CC64B0800E365F3 /* CheckpointHeaderViewCell.swift */; };
 		6140DD971CBC20B20076DAFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DD961CBC20B20076DAFD /* AppDelegate.swift */; };
-		6140DD991CBC20B20076DAFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DD981CBC20B20076DAFD /* ViewController.swift */; };
+		6140DD991CBC20B20076DAFD /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DD981CBC20B20076DAFD /* MainController.swift */; };
 		6140DD9C1CBC20B20076DAFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6140DD9A1CBC20B20076DAFD /* Main.storyboard */; };
 		6140DD9E1CBC20B20076DAFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6140DD9D1CBC20B20076DAFD /* Assets.xcassets */; };
 		6140DDA11CBC20B20076DAFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6140DD9F1CBC20B20076DAFD /* LaunchScreen.storyboard */; };
@@ -41,9 +44,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6126BE971CC63D6600E365F3 /* DetailTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTVC.swift; sourceTree = "<group>"; };
+		6126BE991CC63ED600E365F3 /* CheckpointTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckpointTableViewCell.swift; sourceTree = "<group>"; };
+		6126BE9B1CC64B0800E365F3 /* CheckpointHeaderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckpointHeaderViewCell.swift; sourceTree = "<group>"; };
 		6140DD931CBC20B10076DAFD /* ParcelTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParcelTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6140DD961CBC20B20076DAFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6140DD981CBC20B20076DAFD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6140DD981CBC20B20076DAFD /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		6140DD9B1CBC20B20076DAFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6140DD9D1CBC20B20076DAFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6140DDA01CBC20B20076DAFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -163,8 +169,11 @@
 		6140DDC61CBC210E0076DAFD /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6140DD981CBC20B20076DAFD /* ViewController.swift */,
+				6140DD981CBC20B20076DAFD /* MainController.swift */,
 				6140DDD71CBFC0080076DAFD /* TrackingTableViewCell.swift */,
+				6126BE971CC63D6600E365F3 /* DetailTVC.swift */,
+				6126BE991CC63ED600E365F3 /* CheckpointTableViewCell.swift */,
+				6126BE9B1CC64B0800E365F3 /* CheckpointHeaderViewCell.swift */,
 				61A51FB01CC5600700F632F3 /* MyExtensions.swift */,
 			);
 			name = Controller;
@@ -332,10 +341,13 @@
 				6140DDCE1CBC225A0076DAFD /* Tracking.swift in Sources */,
 				6140DDD81CBFC0080076DAFD /* TrackingTableViewCell.swift in Sources */,
 				6140DDE41CBFF2640076DAFD /* Reachability.m in Sources */,
-				6140DD991CBC20B20076DAFD /* ViewController.swift in Sources */,
+				6126BE9A1CC63ED600E365F3 /* CheckpointTableViewCell.swift in Sources */,
+				6140DD991CBC20B20076DAFD /* MainController.swift in Sources */,
 				6140DDCA1CBC21410076DAFD /* ApiManager.swift in Sources */,
 				6140DD971CBC20B20076DAFD /* AppDelegate.swift in Sources */,
+				6126BE981CC63D6600E365F3 /* DetailTVC.swift in Sources */,
 				61A51FB11CC5600700F632F3 /* MyExtensions.swift in Sources */,
+				6126BE9C1CC64B0800E365F3 /* CheckpointHeaderViewCell.swift in Sources */,
 				6140DDCC1CBC21AD0076DAFD /* Constants.swift in Sources */,
 				6140DDD01CBC360A0076DAFD /* Checkpoint.swift in Sources */,
 			);

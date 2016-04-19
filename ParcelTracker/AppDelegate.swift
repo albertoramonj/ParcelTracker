@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print("Status value: \(networkStatus.rawValue)")
         
-        NSNotificationCenter.defaultCenter().postNotificationName("ReachabilityStatusChanged", object:nil, userInfo:["networkStatusRawValue" : networkStatus.rawValue])
+        NSNotificationCenter.defaultCenter().postNotificationName("ReachStatusChanged", object:nil, userInfo:["networkStatusRawValue" : networkStatus.rawValue])
     }
 
     func applicationWillResignActive(application: UIApplication) {

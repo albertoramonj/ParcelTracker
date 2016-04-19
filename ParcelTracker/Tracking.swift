@@ -20,7 +20,7 @@ class Tracking: NSObject {
         if let carrier = data["carrier"] as? String {
             self._courier = carrier
         } else {
-            _courier = ""
+            _courier = "-"
         }
         
         switch _courier {
@@ -37,7 +37,7 @@ class Tracking: NSObject {
         if let trackingNumber = data["tracking_number"] as? String {
             self._trackingNumber = trackingNumber
         } else {
-            _trackingNumber = ""
+            _trackingNumber = "-"
         }
         
         if let checkpoint = data["tracking_status"] as? JSONDictionary {
@@ -60,18 +60,18 @@ class Tracking: NSObject {
     }
     
     required init(coder aDecoder: NSCoder) {
-        _courier = aDecoder.decodeObjectForKey("_courier") as! String
-        _courierLogo = aDecoder.decodeObjectForKey("_courierLogo") as! String
-        _trackingNumber = aDecoder.decodeObjectForKey("_trackingNumber") as! String
-        _trackingStatus = aDecoder.decodeObjectForKey("_trackingStatus") as! Checkpoint
-        _trackingHistory = aDecoder.decodeObjectForKey("_trackingHistory") as! [Checkpoint]
+        _courier = aDecoder.decodeObjectForKey("courier") as! String
+        _courierLogo = aDecoder.decodeObjectForKey("courierLogo") as! String
+        _trackingNumber = aDecoder.decodeObjectForKey("trackingNumber") as! String
+        _trackingStatus = aDecoder.decodeObjectForKey("trackingStatus") as! Checkpoint
+        _trackingHistory = aDecoder.decodeObjectForKey("trackingHistory") as! [Checkpoint]
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(_courier, forKey: "_courier")
-        aCoder.encodeObject(_courierLogo, forKey: "_courierLogo")
-        aCoder.encodeObject(_trackingNumber, forKey: "_trackingNumber")
-        aCoder.encodeObject(_trackingStatus, forKey: "_trackingStatus")
-        aCoder.encodeObject(_trackingHistory, forKey: "_trackingHistory")
+        aCoder.encodeObject(_courier, forKey: "courier")
+        aCoder.encodeObject(_courierLogo, forKey: "courierLogo")
+        aCoder.encodeObject(_trackingNumber, forKey: "trackingNumber")
+        aCoder.encodeObject(_trackingStatus, forKey: "trackingStatus")
+        aCoder.encodeObject(_trackingHistory, forKey: "trackingHistory")
     }
 }

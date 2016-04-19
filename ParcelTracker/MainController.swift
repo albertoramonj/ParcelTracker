@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainController.swift
 //  ParcelTracker
 //
 //  Created by Alberto Ramon Janez on 11/4/16.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MainController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let api = APIManager()
     
     var trackings = [Tracking]()
     
     //Test tracking numbers (2x UPS, 2x USPS and 2x FedEx
-    var testArray = ["1Z12345E1512345676", "1Z58100E6897060652", "EC904606166US", "LZ868113206US", "782791666790", "809188009383"]
+    var testArray = ["1Z58100E6897060652", "1Z12345E1512345676", "EC904606166US", "LZ868113206US", "782791666790", "809188009383"]
     
     var refreshControl = UIRefreshControl()
     
@@ -31,11 +31,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: Actions
     @IBAction func addTracking(sender: AnyObject) {
-        
         //If text is not empty and the courier is a valid one
         if trackingNumberTextField.text != "" && api.getCourier(trackingNumberTextField.text!) != "" {
-            
-            //If tracking already exist, return
+            //If tracking number already exist, return
             for tracking in trackings {
                 if tracking._trackingNumber.lowercaseString == trackingNumberTextField.text?.lowercaseString {
                     return
@@ -53,9 +51,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         
         #if swift(>=2.2)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.reachabilityStatusChanged), name: "ReachStatusChanged", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainController.reachabilityStatusChanged), name: "ReachStatusChanged", object: nil)
         #else
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityStatusChanged", name: "ReachabilityStatusChanged", object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityStatusChanged", name: "ReachStatusChanged", object: nil)
         #endif
         
         //Removes left margin
@@ -63,12 +61,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.separatorInset = UIEdgeInsetsZero
         
         //Controls text changes to change the self title
-        trackingNumberTextField.addTarget(self, action: #selector(ViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        trackingNumberTextField.addTarget(self, action: #selector(MainController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         
         setupRefreshControl()
         setupSearchControl()
         
-        // restore data
+        //Restore data
         let defaults = NSUserDefaults.standardUserDefaults()
         if let savedTrackings = defaults.objectForKey("trackings") as? NSData {
             trackings = NSKeyedUnarchiver.unarchiveObjectWithData(savedTrackings) as! [Tracking]
@@ -83,7 +81,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - Funcs
     func setupRefreshControl() {
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(ViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(MainController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         tableView?.addSubview(refreshControl)
     }
     
@@ -92,7 +90,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         resultSearchController.searchResultsUpdater = self
         definesPresentationContext = true
         resultSearchController.dimsBackgroundDuringPresentation = false
-        resultSearchController.searchBar.placeholder = "Search tracking, courier, status, date or location"
+        resultSearchController.searchBar.placeholder = "Search any field"
         resultSearchController.searchBar.searchBarStyle = .Prominent
         tableView.tableHeaderView = resultSearchController.searchBar
     }
@@ -172,6 +170,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    //For test purposes. Remove on production
     func randomizeTrackingNumber() {
         if testArray.count > 0 {
             let random = Int(arc4random_uniform(UInt32(testArray.count)))
@@ -188,9 +187,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let courier = api.getCourier(textField.text!)
             if courier != "" {
                 self.title = courier
+                trackingNumberTextField.textColor = UIColor.blueColor()
                 addButton.enabled = true
             } else {
                 self.title = ""
+                trackingNumberTextField.textColor = UIColor.redColor()
                 addButton.enabled = false
             }
         }
@@ -206,6 +207,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler:{(alert: UIAlertAction!) in
             if let indexPath = self.deleteTrackingIndexPath {
+                print("Deleted")
                 self.tableView.beginUpdates()
                 
                 self.trackings.removeAtIndex(indexPath.row)
@@ -214,10 +216,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 self.deleteTrackingIndexPath = nil
                 self.tableView.endUpdates()
-            }})
+            }
+        })
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {(alert: UIAlertAction!) in
             print("Cancelled")
-            self.deleteTrackingIndexPath = nil})
+            self.deleteTrackingIndexPath = nil
+        })
         
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
@@ -239,6 +244,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     private struct storyboard {
         static let cellReuseIdentifier = "trackingCell"
+        static let segueToDetailIdentifier = "trackingDetail"
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -267,6 +273,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "ReachabilityStatusChanged", object: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == storyboard.segueToDetailIdentifier {
+            if let indexpath = tableView.indexPathForSelectedRow {
+                let backItem = UIBarButtonItem()
+                backItem.title = ""
+                navigationItem.backBarButtonItem = backItem
+                let settingsTVC = segue.destinationViewController as! DetailTVC
+                let tracking: Tracking = trackings[indexpath.row]
+                settingsTVC.tracking = tracking
+            }
+        }
     }
 }
 

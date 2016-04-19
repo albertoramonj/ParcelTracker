@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class TrackingTableViewCell: UITableViewCell {
     
     @IBOutlet weak var courierImageView: UIImageView!
@@ -25,6 +23,13 @@ class TrackingTableViewCell: UITableViewCell {
     }
     
     func updateCell() {
+        let pointSize = UIFont.preferredFontForTextStyle(UIFontTextStyleFootnote).pointSize
+        let customFont = UIFont(name: "HelveticaNeue-Light", size: pointSize)
+        trackingNumberLabel.font = customFont
+        dateLabel.font = customFont
+        statusDetailLabel.font = customFont
+        locationLabel.font = customFont
+        
         courierImageView.image = UIImage(named: tracking!._courierLogo)
         trackingNumberLabel.text = tracking!._trackingNumber
         dateLabel.text = "\(tracking!._trackingStatus._statusDate)"

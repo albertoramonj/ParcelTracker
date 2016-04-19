@@ -56,6 +56,11 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityStatusChanged", name: "ReachStatusChanged", object: nil)
         #endif
         
+        //Hiding status bar 1px separator
+        let navigationBar = self.navigationController?.navigationBar
+        navigationBar?.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Any, barMetrics: UIBarMetrics.Default)
+        navigationBar?.shadowImage = UIImage()
+        
         //Removes left margin
         tableView.layoutMargins = UIEdgeInsetsZero
         tableView.separatorInset = UIEdgeInsetsZero

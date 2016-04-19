@@ -130,7 +130,7 @@
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.98429292440414429" green="0.67767333984375" blue="0.17112258076667786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ke5-yI-Qbn" firstAttribute="centerY" secondItem="ucu-If-9bL" secondAttribute="centerY" id="3M6-cW-mWG"/>
                             <constraint firstItem="ucu-If-9bL" firstAttribute="leading" secondItem="ke5-yI-Qbn" secondAttribute="trailing" constant="8" symbolic="YES" id="3oV-jS-C5v"/>

@@ -21,7 +21,7 @@ class CheckpointHeaderViewCell: UITableViewCell {
     }
     
     func updateHeader() {
-        let checkpoint = tracking?._trackingStatus
+        let checkpoint = tracking?.tStatus
         
         let pointSize = UIFont.preferredFontForTextStyle(UIFontTextStyleBody).pointSize
         let customFontLight = UIFont(name: "HelveticaNeue-Light", size: pointSize)
@@ -30,10 +30,10 @@ class CheckpointHeaderViewCell: UITableViewCell {
         trackingNumberLabel.font = customFontLight
         courierLabel.font = customFontLight
         
-        courierImageView.image = UIImage(named: tracking!._courierLogo)
-        courierLabel.text = tracking!._courier.uppercaseString
-        statusDetailLabel.text = "\(checkpoint!._statusDetails)"
-        trackingNumberLabel.text = "\(tracking!._trackingNumber)"
+        courierImageView.image = UIImage(named: tracking!.tCourierLogo)
+        courierLabel.text = tracking!.tCourier.uppercaseString
+        statusDetailLabel.text = "\(checkpoint!.cStatusDetails)"
+        trackingNumberLabel.text = "\(tracking!.tNumber)"
     }
     
     /*

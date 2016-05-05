@@ -24,6 +24,7 @@
 		6140DDD81CBFC0080076DAFD /* TrackingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDD71CBFC0080076DAFD /* TrackingTableViewCell.swift */; };
 		6140DDE41CBFF2640076DAFD /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6140DDE31CBFF2640076DAFD /* Reachability.m */; };
 		61A51FB11CC5600700F632F3 /* MyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A51FB01CC5600700F632F3 /* MyExtensions.swift */; };
+		61D0118A1CDB352900EA1C45 /* JsonDataExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D011891CDB352900EA1C45 /* JsonDataExtractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		6140DDE21CBFF2640076DAFD /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		6140DDE31CBFF2640076DAFD /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		61A51FB01CC5600700F632F3 /* MyExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyExtensions.swift; sourceTree = "<group>"; };
+		61D011891CDB352900EA1C45 /* JsonDataExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonDataExtractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				6140DDC91CBC21410076DAFD /* ApiManager.swift */,
 				6140DDCD1CBC225A0076DAFD /* Tracking.swift */,
 				6140DDCF1CBC360A0076DAFD /* Checkpoint.swift */,
+				61D011891CDB352900EA1C45 /* JsonDataExtractor.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				6140DD991CBC20B20076DAFD /* MainController.swift in Sources */,
 				6140DDCA1CBC21410076DAFD /* ApiManager.swift in Sources */,
 				6140DD971CBC20B20076DAFD /* AppDelegate.swift in Sources */,
+				61D0118A1CDB352900EA1C45 /* JsonDataExtractor.swift in Sources */,
 				6126BE981CC63D6600E365F3 /* DetailTVC.swift in Sources */,
 				61A51FB11CC5600700F632F3 /* MyExtensions.swift in Sources */,
 				6126BE9C1CC64B0800E365F3 /* CheckpointHeaderViewCell.swift in Sources */,

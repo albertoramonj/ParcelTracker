@@ -36,8 +36,8 @@ class CheckpointTableViewCell: UITableViewCell {
         statusDetailLabel.font = customFontBold
         locationLabel.font = customFontBold
         
-        dateLabel.text = "\(checkpoint!._statusDate)"
-        statusDetailLabel.text = "\(checkpoint!._statusDetails)"
-        locationLabel.text = "\(checkpoint!._location)"
+        dateLabel.text = "\(checkpoint!.cStatusDate)"
+        statusDetailLabel.text = "\(checkpoint!.cStatusDetails)"
+        locationLabel.text = "\(checkpoint!.cLocation)"
     }
 }

@@ -35,7 +35,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         if trackingNumberTextField.text != "" && api.getCourier(trackingNumberTextField.text!) != "" {
             //If tracking number already exist, return
             for tracking in trackings {
-                if tracking._trackingNumber.lowercaseString == trackingNumberTextField.text?.lowercaseString {
+                if tracking.tNumber.lowercaseString == trackingNumberTextField.text?.lowercaseString {
                     return
                 }
             }
@@ -111,7 +111,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             for tracking in tempTrackings {
                 dispatch_group_enter(downloadGroup)
-                api.getTracking(tracking._trackingNumber, completion: {tracking in
+                api.getTracking(tracking.tNumber, completion: { tracking in
                         self.trackings.append(tracking)
                         dispatch_group_leave(downloadGroup);
                 })
@@ -141,7 +141,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func shortArray() {
-        self.trackings.sortInPlace { $0._trackingStatus._statusDate > $1._trackingStatus._statusDate }
+        self.trackings.sortInPlace { $0.tStatus.cStatusDate > $1.tStatus.cStatusDate }
     }
     
     func storeData() {
@@ -152,7 +152,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - Callbacks
     func didGetTracking(tracking: Tracking) {
-        print(tracking._courier)
+        print(tracking.tCourier)
         trackings.append(tracking)
         shortArray()
         storeData()
@@ -203,7 +203,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func filterSearch(searchText: String) {
-        filteredSearch = trackings.filter {$0._courier.lowercaseString.containsString(searchText) || $0._trackingNumber.lowercaseString.containsString(searchText) || $0._trackingStatus._location.lowercaseString.containsString(searchText) || $0._trackingStatus._status.lowercaseString.containsString(searchText) || $0._trackingStatus._statusDate.lowercaseString.containsString(searchText)}
+        filteredSearch = trackings.filter {$0.tCourier.lowercaseString.containsString(searchText) || $0.tNumber.lowercaseString.containsString(searchText) || $0.tStatus.cLocation.lowercaseString.containsString(searchText) || $0.tStatus.cStatus.lowercaseString.containsString(searchText) || $0.tStatus.cStatusDate.lowercaseString.containsString(searchText)}
         tableView.reloadData()
     }
     
@@ -258,11 +258,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         cell.layoutMargins = UIEdgeInsetsZero
         
-        if resultSearchController.active {
-            cell.tracking = filteredSearch[indexPath.row]
-        } else {
-            cell.tracking = trackings[indexPath.row]
-        }
+        cell.tracking = resultSearchController.active ? filteredSearch[indexPath.row] : trackings[indexPath.row]
 
         return cell
     }

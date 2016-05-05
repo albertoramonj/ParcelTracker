@@ -9,69 +9,43 @@
 import Foundation
 
 class Tracking: NSObject {
-    private(set) var _courier:String
-    private(set) var _courierLogo:String
-    private(set) var _trackingNumber:String
-    private(set) var _trackingStatus:Checkpoint
-    private(set) var _trackingHistory:[Checkpoint]
+    private(set) var tCourier:String
+    private(set) var tCourierLogo:String
+    private(set) var tNumber:String
+    private(set) var tStatus:Checkpoint
+    private(set) var tHistory:[Checkpoint]
     
-    init(data: JSONDictionary) {
+    init(tCourier:String, tCourierLogo:String, tNumber:String, tStatus:Checkpoint,
+         tHistory:[Checkpoint]) {
         
-        if let carrier = data["carrier"] as? String {
-            self._courier = carrier
-        } else {
-            _courier = "-"
-        }
-        
-        switch _courier {
-            case "ups":
-                _courierLogo = "ups_logo.png"
-            case "usps":
-                _courierLogo = "usps_logo.png"
-            case "fedex":
-                _courierLogo = "fedex_logo.png"
-            default:
-                _courierLogo = ""
-        }
-        
-        if let trackingNumber = data["tracking_number"] as? String {
-            self._trackingNumber = trackingNumber
-        } else {
-            _trackingNumber = "-"
-        }
-        
-        if let checkpoint = data["tracking_status"] as? JSONDictionary {
-            self._trackingStatus = Checkpoint(data: checkpoint)
-            
-        } else {
-            self._trackingStatus = Checkpoint(data: Dictionary())
-        }
-        
-        if let checkpoints = data["tracking_history"] as? JSonArray {
-            var cp = [Checkpoint]()
-            for checkpoint in checkpoints {
-                let checkpoint = Checkpoint(data: checkpoint as! JSONDictionary)
-                cp.append(checkpoint)
-            }
-            self._trackingHistory = cp
-        } else {
-            self._trackingHistory = Array()
-        }
+        self.tCourier = tCourier
+        self.tCourierLogo = tCourierLogo
+        self.tNumber = tNumber
+        self.tStatus = tStatus
+        self.tHistory = tHistory
+    }
+    
+    override init() {
+        self.tCourier = ""
+        self.tCourierLogo = ""
+        self.tNumber = ""
+        self.tStatus = Checkpoint()
+        self.tHistory = [Checkpoint]()
     }
     
     required init(coder aDecoder: NSCoder) {
-        _courier = aDecoder.decodeObjectForKey("courier") as! String
-        _courierLogo = aDecoder.decodeObjectForKey("courierLogo") as! String
-        _trackingNumber = aDecoder.decodeObjectForKey("trackingNumber") as! String
-        _trackingStatus = aDecoder.decodeObjectForKey("trackingStatus") as! Checkpoint
-        _trackingHistory = aDecoder.decodeObjectForKey("trackingHistory") as! [Checkpoint]
+        tCourier = aDecoder.decodeObjectForKey("tCourier") as! String
+        tCourierLogo = aDecoder.decodeObjectForKey("tCourierLogo") as! String
+        tNumber = aDecoder.decodeObjectForKey("tNumber") as! String
+        tStatus = aDecoder.decodeObjectForKey("tStatus") as! Checkpoint
+        tHistory = aDecoder.decodeObjectForKey("tHistory") as! [Checkpoint]
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(_courier, forKey: "courier")
-        aCoder.encodeObject(_courierLogo, forKey: "courierLogo")
-        aCoder.encodeObject(_trackingNumber, forKey: "trackingNumber")
-        aCoder.encodeObject(_trackingStatus, forKey: "trackingStatus")
-        aCoder.encodeObject(_trackingHistory, forKey: "trackingHistory")
+        aCoder.encodeObject(tCourier, forKey: "tCourier")
+        aCoder.encodeObject(tCourierLogo, forKey: "tCourierLogo")
+        aCoder.encodeObject(tNumber, forKey: "tNumber")
+        aCoder.encodeObject(tStatus, forKey: "tStatus")
+        aCoder.encodeObject(tHistory, forKey: "tHistory")
     }
 }

@@ -26,23 +26,29 @@ class APIManager {
             if (error != nil) {
                 print(error!.localizedDescription)
             } else {
-                do {
-                    if let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? JSONDictionary {
-                        let tracking = Tracking(data: json)
+                    let tracking = self.parseJson(data)
 
-                            let priority = DISPATCH_QUEUE_PRIORITY_HIGH
-                            dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    completion(tracking)
-                                }
-                        }
+                        let priority = DISPATCH_QUEUE_PRIORITY_HIGH
+                        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                completion(tracking)
+                            }
                     }
-                } catch {
-                    print("error in JSONSerialization")
-                }
             }
         }
         task.resume()
+    }
+    
+    func parseJson(data: NSData?) -> Tracking {
+        do {
+            if let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as AnyObject? {
+                // Because this is a static func we do not have to instantiate the object
+                return JsonDataExtractor.extractTrackingDataFromJson(json)
+            }
+        } catch {
+            print("Failed to parse data: \(error)")
+        }
+        return Tracking()
     }
     
     func getCourier(trackingNumber: String) -> String {

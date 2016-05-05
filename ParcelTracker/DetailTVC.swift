@@ -21,10 +21,10 @@ class DetailTVC: UITableViewController {
         navigationBar?.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Any, barMetrics: UIBarMetrics.Default)
         navigationBar?.shadowImage = UIImage()
         
-        title = tracking._trackingNumber
+        title = tracking.tNumber
         
-        sortedTrackingHistory = tracking._trackingHistory
-        sortedTrackingHistory.sortInPlace {$0._statusDate > $1._statusDate}
+        sortedTrackingHistory = tracking.tHistory
+        sortedTrackingHistory.sortInPlace {$0.cStatusDate > $1.cStatusDate}
         tableView.reloadData()
     }
     

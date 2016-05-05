@@ -30,11 +30,11 @@ class TrackingTableViewCell: UITableViewCell {
         statusDetailLabel.font = customFont
         locationLabel.font = customFont
         
-        courierImageView.image = UIImage(named: tracking!._courierLogo)
-        trackingNumberLabel.text = tracking!._trackingNumber
-        dateLabel.text = "\(tracking!._trackingStatus._statusDate)"
-        statusDetailLabel.text = "\(tracking!._trackingStatus._status)"
-        locationLabel.text = "\(tracking!._trackingStatus._location)"
+        courierImageView.image = UIImage(named: tracking!.tCourierLogo)
+        trackingNumberLabel.text = tracking!.tNumber
+        dateLabel.text = "\(tracking!.tStatus.cStatusDate)"
+        statusDetailLabel.text = "\(tracking!.tStatus.cStatus)"
+        locationLabel.text = "\(tracking!.tStatus.cLocation)"
     }
     
 }

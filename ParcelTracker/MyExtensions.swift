@@ -9,9 +9,8 @@
 import UIKit
 
 extension MainController: UISearchResultsUpdating {
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        searchController.searchBar.text!.lowercaseString
-        filterSearch(searchController.searchBar.text!.lowercaseString)
+    func updateSearchResults(for searchController: UISearchController) {
+        filterSearch(searchController.searchBar.text!.lowercased())
     }
 }
 

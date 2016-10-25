@@ -18,44 +18,44 @@ class DetailTVC: UITableViewController {
         
         //Hiding status bar 1px separator
         let navigationBar = self.navigationController?.navigationBar
-        navigationBar?.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Any, barMetrics: UIBarMetrics.Default)
+        navigationBar?.setBackgroundImage(UIImage(), for: UIBarPosition.any, barMetrics: UIBarMetrics.default)
         navigationBar?.shadowImage = UIImage()
         
         title = tracking.tNumber
         
         sortedTrackingHistory = tracking.tHistory
-        sortedTrackingHistory.sortInPlace {$0.cStatusDate > $1.cStatusDate}
+        sortedTrackingHistory.sort {$0.cStatusDate > $1.cStatusDate}
         tableView.reloadData()
     }
     
     // MARK: - Table view data source
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
-        let headerCell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! CheckpointHeaderViewCell
-        headerCell.layoutMargins = UIEdgeInsetsZero
+        let headerCell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! CheckpointHeaderViewCell
+        headerCell.layoutMargins = UIEdgeInsets.zero
         headerCell.tracking = tracking
         return headerCell
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sortedTrackingHistory.count
     }
 
-    private struct storyboard {
+    fileprivate struct storyboard {
         static let cellReuseIdentifier = "checkpointCell"
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(storyboard.cellReuseIdentifier, forIndexPath: indexPath) as! CheckpointTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.cellReuseIdentifier, for: indexPath) as! CheckpointTableViewCell
         
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.row = indexPath.row
-        cell.checkpoint = sortedTrackingHistory[indexPath.row]
+        cell.layoutMargins = UIEdgeInsets.zero
+        cell.row = (indexPath as NSIndexPath).row
+        cell.checkpoint = sortedTrackingHistory[(indexPath as NSIndexPath).row]
         
         return cell
     }

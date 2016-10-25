@@ -28,9 +28,22 @@ class ParcelTrackerUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testAddTracking() {
+        let app = XCUIApplication()
+        let tablesQuery = app.tables
+        let previousCount = tablesQuery.cells.count
+        
+        // Pasting a new tracking number
+        let trackingNumberTextField = app.textFields["TrackingNumberTextField"]
+        trackingNumberTextField.tap()
+        UIPasteboard.general.string = "1Z58100E6897060652"
+        trackingNumberTextField.doubleTap()
+        app.menuItems.element(boundBy: 2).tap()
+        
+        app.buttons["plus"].tap()
+        sleep(3) // TODO: Testing with Stubbed Network Data
+        let count = tablesQuery.cells.count
+        
+        XCTAssert(count == previousCount + 1)
     }
-    
 }

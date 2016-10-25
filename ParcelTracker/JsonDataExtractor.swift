@@ -8,7 +8,7 @@
 
 import Foundation
 class JsonDataExtractor {
-    static func extractTrackingDataFromJson(trackingDataObject: AnyObject) -> Tracking {
+    static func extractTrackingDataFromJson(_ trackingDataObject: AnyObject) -> Tracking {
     
         guard let data = trackingDataObject as? JSONDictionary else { return Tracking() }
         
@@ -35,11 +35,11 @@ class JsonDataExtractor {
         }
         
         if let trackingStatus = data["tracking_status"] as? JSONDictionary {
-            tStatus = self.fillCheckpointWithDict(trackingStatus)
+            tStatus = self.fillCheckpointWithDict(trackingStatus as AnyObject)
         }
         
         if let trackingHistory = data["tracking_history"] as? JSonArray {
-            let checkpoints = self.extractCheckpointsDataFromJson(trackingHistory)
+            let checkpoints = self.extractCheckpointsDataFromJson(trackingHistory as AnyObject)
             tHistory = checkpoints
         }
         
@@ -49,11 +49,11 @@ class JsonDataExtractor {
     
     }
 
-    static func extractCheckpointsDataFromJson(checkpointDataObject: AnyObject) -> [Checkpoint] {
+    static func extractCheckpointsDataFromJson(_ checkpointDataObject: AnyObject) -> [Checkpoint] {
         guard let data = checkpointDataObject as? JSonArray else { return [Checkpoint]() }
         var checkpoints = [Checkpoint]()
         
-        for (_, checkpoint) in data.enumerate() {
+        for (_, checkpoint) in data.enumerated() {
             let currentCheckpoint = self.fillCheckpointWithDict(checkpoint)
             
             checkpoints.append(currentCheckpoint)
@@ -62,7 +62,7 @@ class JsonDataExtractor {
         return checkpoints
     }
     
-    private static func fillCheckpointWithDict(dict: AnyObject) -> Checkpoint {
+    fileprivate static func fillCheckpointWithDict(_ dict: AnyObject) -> Checkpoint {
         guard let data = dict as? JSONDictionary else { return Checkpoint() }
         
         var cStatus = "", cStatusDetails = "", cStatusDate = "", cLocation = ""
@@ -76,18 +76,18 @@ class JsonDataExtractor {
         }
         
         if let statusDate = data["status_date"] as? String {
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            let date = dateFormatter.dateFromString(statusDate)
+            let date = dateFormatter.date(from: statusDate)
             if date != nil {
                 dateFormatter.dateFormat = "YYYY/dd/MM hh:mm a"
-                let formatedDate = dateFormatter.stringFromDate(date!)
+                let formatedDate = dateFormatter.string(from: date!)
                 cStatusDate = formatedDate
             }
         }
         
         if let location = data["location"] as? JSONDictionary,
-            city = location["city"] as? String {
+            let city = location["city"] as? String {
             cLocation = city
         }
         

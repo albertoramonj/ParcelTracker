@@ -22,7 +22,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     var filteredSearch = [Tracking]()
     let resultSearchController = UISearchController(searchResultsController: nil)
     
-    var deleteTrackingIndexPath: NSIndexPath? = nil
+    var deleteTrackingIndexPath: IndexPath? = nil
     
     @IBOutlet weak var trackingNumberTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
@@ -30,17 +30,17 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: Actions
-    @IBAction func addTracking(sender: AnyObject) {
+    @IBAction func addTracking(_ sender: AnyObject) {
         //If text is not empty and the courier is a valid one
         if trackingNumberTextField.text != "" && api.getCourier(trackingNumberTextField.text!) != "" {
             //If tracking number already exist, return
             for tracking in trackings {
-                if tracking.tNumber.lowercaseString == trackingNumberTextField.text?.lowercaseString {
+                if tracking.tNumber.lowercased() == trackingNumberTextField.text?.lowercased() {
                     return
                 }
             }
             
-            addButton.hidden = true
+            addButton.isHidden = true
             activityIndicator.startAnimating()
             api.getTracking(trackingNumberTextField.text!, completion: didGetTracking)
         }
@@ -50,108 +50,104 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        #if swift(>=2.2)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainController.reachabilityStatusChanged), name: "ReachStatusChanged", object: nil)
-        #else
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityStatusChanged", name: "ReachStatusChanged", object: nil)
-        #endif
+        NotificationCenter.default.addObserver(self, selector: #selector(MainController.reachabilityStatusChanged), name: NSNotification.Name(rawValue: "ReachStatusChanged"), object: nil)
         
         //Hiding status bar 1px separator
         let navigationBar = self.navigationController?.navigationBar
-        navigationBar?.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Any, barMetrics: UIBarMetrics.Default)
+        navigationBar?.setBackgroundImage(UIImage(), for: UIBarPosition.any, barMetrics: UIBarMetrics.default)
         navigationBar?.shadowImage = UIImage()
         
         //Removes left margin
-        tableView.layoutMargins = UIEdgeInsetsZero
-        tableView.separatorInset = UIEdgeInsetsZero
+        tableView.layoutMargins = UIEdgeInsets.zero
+        tableView.separatorInset = UIEdgeInsets.zero
         
         //Controls text changes to change the self title
-        trackingNumberTextField.addTarget(self, action: #selector(MainController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        trackingNumberTextField.addTarget(self, action: #selector(MainController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         
         setupRefreshControl()
         setupSearchControl()
         
         //Restore data
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let savedTrackings = defaults.objectForKey("trackings") as? NSData {
-            trackings = NSKeyedUnarchiver.unarchiveObjectWithData(savedTrackings) as! [Tracking]
+        let defaults = UserDefaults.standard
+        if let savedTrackings = defaults.object(forKey: "trackings") as? Data {
+            trackings = NSKeyedUnarchiver.unarchiveObject(with: savedTrackings) as! [Tracking]
         }
         
         //For test purposes. Remove on production
         trackingNumberTextField.text = testArray[0]
-        testArray.removeAtIndex(0)
+        testArray.remove(at: 0)
         textFieldDidChange(trackingNumberTextField)
     }
     
     // MARK: - Funcs
     func setupRefreshControl() {
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(MainController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(MainController.refresh(_:)), for: UIControlEvents.valueChanged)
         tableView?.addSubview(refreshControl)
     }
     
     func setupSearchControl() {
-        tableView.setContentOffset(CGPointMake(0, 44), animated: true)
+        tableView.setContentOffset(CGPoint(x: 0, y: 44), animated: true)
         resultSearchController.searchResultsUpdater = self
         definesPresentationContext = true
         resultSearchController.dimsBackgroundDuringPresentation = false
         resultSearchController.searchBar.placeholder = "Search any field"
-        resultSearchController.searchBar.searchBarStyle = .Prominent
+        resultSearchController.searchBar.searchBarStyle = .prominent
         tableView.tableHeaderView = resultSearchController.searchBar
     }
     
-    func refresh(sender:AnyObject) {
+    func refresh(_ sender:AnyObject) {
         if trackings.count > 0 {
-            addButton.hidden = true
+            addButton.isHidden = true
             activityIndicator.startAnimating()
             let tempTrackings: [Tracking] = trackings
             trackings.removeAll()
             
-            let downloadGroup: dispatch_group_t = dispatch_group_create();
+            let downloadGroup: DispatchGroup = DispatchGroup();
             
             for tracking in tempTrackings {
-                dispatch_group_enter(downloadGroup)
+                downloadGroup.enter()
                 api.getTracking(tracking.tNumber, completion: { tracking in
                         self.trackings.append(tracking)
-                        dispatch_group_leave(downloadGroup);
+                        downloadGroup.leave();
                 })
             }
             
             //non-blocking wait for all updates to finish
-            dispatch_group_notify(downloadGroup, dispatch_get_main_queue(), {
-                dispatch_async(dispatch_get_main_queue(), {
+            downloadGroup.notify(queue: DispatchQueue.main, execute: {
+                DispatchQueue.main.async(execute: {
                     self.shortArray()
                     self.storeData()
                     self.tableView.reloadData()
                     
                     self.activityIndicator.stopAnimating()
-                    if self.refreshControl.refreshing {
+                    if self.refreshControl.isRefreshing {
                         self.refreshControl.endRefreshing()
                     }
-                    self.addButton.hidden = false
+                    self.addButton.isHidden = false
                     
                 })
             })
             
         } else {
-            if self.refreshControl.refreshing {
+            if self.refreshControl.isRefreshing {
                 self.refreshControl.endRefreshing()
             }
         }
     }
     
     func shortArray() {
-        self.trackings.sortInPlace { $0.tStatus.cStatusDate > $1.tStatus.cStatusDate }
+        self.trackings.sort { $0.tStatus.cStatusDate > $1.tStatus.cStatusDate }
     }
     
     func storeData() {
-        let savedData = NSKeyedArchiver.archivedDataWithRootObject(trackings)
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(savedData, forKey: "trackings")
+        let savedData = NSKeyedArchiver.archivedData(withRootObject: trackings)
+        let defaults = UserDefaults.standard
+        defaults.set(savedData, forKey: "trackings")
     }
     
     // MARK: - Callbacks
-    func didGetTracking(tracking: Tracking) {
+    func didGetTracking(_ tracking: Tracking) {
         print(tracking.tCourier)
         trackings.append(tracking)
         shortArray()
@@ -159,19 +155,19 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.reloadData()
         randomizeTrackingNumber()
         activityIndicator.stopAnimating()
-        addButton.hidden = false
+        addButton.isHidden = false
     }
     
-    func reachabilityStatusChanged(notification: NSNotification) {
-        let status = notification.userInfo!["networkStatusRawValue"] as! Int
+    func reachabilityStatusChanged(_ notification: Notification) {
+        let status = (notification as NSNotification).userInfo!["networkStatusRawValue"] as! Int
         
         switch status {
         case NotReachable.rawValue:
             trackingNumberTextField.text = "No internet access"
-            addButton.enabled = false
+            addButton.isEnabled = false
         default:
             trackingNumberTextField.text = ""
-            addButton.enabled = true
+            addButton.isEnabled = true
         }
     }
     
@@ -181,50 +177,50 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
             let random = Int(arc4random_uniform(UInt32(testArray.count)))
             trackingNumberTextField.text = testArray[random]
             textFieldDidChange(trackingNumberTextField)
-            testArray.removeAtIndex(random)
+            testArray.remove(at: random)
         } else {
             trackingNumberTextField.text = ""
         }
     }
     
-    func textFieldDidChange(textField: UITextField) {
-        if textField.text?.characters.count > 0 {
+    func textFieldDidChange(_ textField: UITextField) {
+        if (textField.text?.characters.count)! > 0 {
             let courier = api.getCourier(textField.text!)
             if courier != "" {
                 self.title = courier
-                trackingNumberTextField.textColor = UIColor.blueColor()
-                addButton.enabled = true
+                trackingNumberTextField.textColor = UIColor.blue
+                addButton.isEnabled = true
             } else {
                 self.title = ""
-                trackingNumberTextField.textColor = UIColor.redColor()
-                addButton.enabled = false
+                trackingNumberTextField.textColor = UIColor.red
+                addButton.isEnabled = false
             }
         }
     }
     
-    func filterSearch(searchText: String) {
-        filteredSearch = trackings.filter {$0.tCourier.lowercaseString.containsString(searchText) || $0.tNumber.lowercaseString.containsString(searchText) || $0.tStatus.cLocation.lowercaseString.containsString(searchText) || $0.tStatus.cStatus.lowercaseString.containsString(searchText) || $0.tStatus.cStatusDate.lowercaseString.containsString(searchText)}
+    func filterSearch(_ searchText: String) {
+        filteredSearch = trackings.filter {$0.tCourier.lowercased().contains(searchText) || $0.tNumber.lowercased().contains(searchText) || $0.tStatus.cLocation.lowercased().contains(searchText) || $0.tStatus.cStatus.lowercased().contains(searchText) || $0.tStatus.cStatusDate.lowercased().contains(searchText)}
         tableView.reloadData()
     }
     
-    func confirmDelete(index: Int) {
-        let alert = UIAlertController(title: "Delete tracking", message: "Are you sure you want to permanently delete it?", preferredStyle: .ActionSheet)
+    func confirmDelete(_ index: Int) {
+        let alert = UIAlertController(title: "Delete tracking", message: "Are you sure you want to permanently delete it?", preferredStyle: .actionSheet)
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler:{(alert: UIAlertAction!) in
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler:{(alert: UIAlertAction!) in
             if let indexPath = self.deleteTrackingIndexPath {
                 print("Deleted")
                 self.tableView.beginUpdates()
                 
-                self.trackings.removeAtIndex(indexPath.row)
+                self.trackings.remove(at: (indexPath as NSIndexPath).row)
                 self.storeData()
                 
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.deleteTrackingIndexPath = nil
                 self.tableView.endUpdates()
             }
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: {(alert: UIAlertAction!) in
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) in
             print("Cancelled")
             self.deleteTrackingIndexPath = nil
         })
@@ -232,58 +228,58 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Table view data source
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if resultSearchController.active {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if resultSearchController.isActive {
             return filteredSearch.count
         }
         return trackings.count
     }
     
-    private struct storyboard {
+    fileprivate struct storyboard {
         static let cellReuseIdentifier = "trackingCell"
         static let segueToDetailIdentifier = "trackingDetail"
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(storyboard.cellReuseIdentifier, forIndexPath: indexPath) as! TrackingTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: storyboard.cellReuseIdentifier, for: indexPath) as! TrackingTableViewCell
         
-        cell.layoutMargins = UIEdgeInsetsZero
+        cell.layoutMargins = UIEdgeInsets.zero
         
-        cell.tracking = resultSearchController.active ? filteredSearch[indexPath.row] : trackings[indexPath.row]
+        cell.tracking = resultSearchController.isActive ? filteredSearch[(indexPath as NSIndexPath).row] : trackings[(indexPath as NSIndexPath).row]
 
         return cell
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if editingStyle == .delete {
                 deleteTrackingIndexPath = indexPath
-                confirmDelete(indexPath.row)
+                confirmDelete((indexPath as NSIndexPath).row)
             }
         }
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "ReachabilityStatusChanged", object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "ReachabilityStatusChanged"), object: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == storyboard.segueToDetailIdentifier {
             if let indexpath = tableView.indexPathForSelectedRow {
                 let backItem = UIBarButtonItem()
                 backItem.title = ""
                 navigationItem.backBarButtonItem = backItem
-                let settingsTVC = segue.destinationViewController as! DetailTVC
-                let tracking: Tracking = trackings[indexpath.row]
+                let settingsTVC = segue.destination as! DetailTVC
+                let tracking: Tracking = trackings[(indexpath as NSIndexPath).row]
                 settingsTVC.tracking = tracking
             }
         }

@@ -23,7 +23,7 @@ class TrackingTableViewCell: UITableViewCell {
     }
     
     func updateCell() {
-        let pointSize = UIFont.preferredFontForTextStyle(UIFontTextStyleFootnote).pointSize
+        let pointSize = UIFont.preferredFont(forTextStyle: UIFontTextStyle.footnote).pointSize
         let customFont = UIFont(name: "HelveticaNeue-Light", size: pointSize)
         trackingNumberLabel.font = customFont
         dateLabel.font = customFont

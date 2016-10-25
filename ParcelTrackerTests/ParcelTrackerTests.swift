@@ -21,16 +21,14 @@ class ParcelTrackerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testGetCourier() {
+        let upsTrackingNumber = "1Z58100E6897060652"
+        XCTAssertEqual(APIManager().getCourier(upsTrackingNumber), "ups")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
+    func testGetCourierFail() {
+        let upsTrackingNumber = "1Z58100E689706065"
+        XCTAssertEqual(APIManager().getCourier(upsTrackingNumber), "")
     }
     
 }

@@ -9,11 +9,11 @@
 import Foundation
 
 class Tracking: NSObject {
-    private(set) var tCourier:String
-    private(set) var tCourierLogo:String
-    private(set) var tNumber:String
-    private(set) var tStatus:Checkpoint
-    private(set) var tHistory:[Checkpoint]
+    fileprivate(set) var tCourier:String
+    fileprivate(set) var tCourierLogo:String
+    fileprivate(set) var tNumber:String
+    fileprivate(set) var tStatus:Checkpoint
+    fileprivate(set) var tHistory:[Checkpoint]
     
     init(tCourier:String, tCourierLogo:String, tNumber:String, tStatus:Checkpoint,
          tHistory:[Checkpoint]) {
@@ -34,18 +34,18 @@ class Tracking: NSObject {
     }
     
     required init(coder aDecoder: NSCoder) {
-        tCourier = aDecoder.decodeObjectForKey("tCourier") as! String
-        tCourierLogo = aDecoder.decodeObjectForKey("tCourierLogo") as! String
-        tNumber = aDecoder.decodeObjectForKey("tNumber") as! String
-        tStatus = aDecoder.decodeObjectForKey("tStatus") as! Checkpoint
-        tHistory = aDecoder.decodeObjectForKey("tHistory") as! [Checkpoint]
+        tCourier = aDecoder.decodeObject(forKey: "tCourier") as! String
+        tCourierLogo = aDecoder.decodeObject(forKey: "tCourierLogo") as! String
+        tNumber = aDecoder.decodeObject(forKey: "tNumber") as! String
+        tStatus = aDecoder.decodeObject(forKey: "tStatus") as! Checkpoint
+        tHistory = aDecoder.decodeObject(forKey: "tHistory") as! [Checkpoint]
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(tCourier, forKey: "tCourier")
-        aCoder.encodeObject(tCourierLogo, forKey: "tCourierLogo")
-        aCoder.encodeObject(tNumber, forKey: "tNumber")
-        aCoder.encodeObject(tStatus, forKey: "tStatus")
-        aCoder.encodeObject(tHistory, forKey: "tHistory")
+    func encodeWithCoder(_ aCoder: NSCoder) {
+        aCoder.encode(tCourier, forKey: "tCourier")
+        aCoder.encode(tCourierLogo, forKey: "tCourierLogo")
+        aCoder.encode(tNumber, forKey: "tNumber")
+        aCoder.encode(tStatus, forKey: "tStatus")
+        aCoder.encode(tHistory, forKey: "tHistory")
     }
 }

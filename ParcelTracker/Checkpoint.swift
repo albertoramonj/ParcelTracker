@@ -9,10 +9,10 @@
 import Foundation
 
 class Checkpoint: NSObject {
-    private(set) var cStatus: String
-    private(set) var cStatusDetails: String
-    private(set) var cStatusDate: String
-    private(set) var cLocation: String
+    fileprivate(set) var cStatus: String
+    fileprivate(set) var cStatusDetails: String
+    fileprivate(set) var cStatusDate: String
+    fileprivate(set) var cLocation: String
     
     init(cStatus:String, cStatusDetails:String, cStatusDate:String, cLocation:String) {
         self.cStatus = cStatus
@@ -29,16 +29,16 @@ class Checkpoint: NSObject {
     }
     
     required init(coder aDecoder: NSCoder) {
-        cStatus = aDecoder.decodeObjectForKey("cStatus") as! String
-        cStatusDetails = aDecoder.decodeObjectForKey("cStatusDetails") as! String
-        cStatusDate = aDecoder.decodeObjectForKey("cStatusDate") as! String
-        cLocation = aDecoder.decodeObjectForKey("cLocation") as! String
+        cStatus = aDecoder.decodeObject(forKey: "cStatus") as! String
+        cStatusDetails = aDecoder.decodeObject(forKey: "cStatusDetails") as! String
+        cStatusDate = aDecoder.decodeObject(forKey: "cStatusDate") as! String
+        cLocation = aDecoder.decodeObject(forKey: "cLocation") as! String
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(cStatus, forKey: "cStatus")
-        aCoder.encodeObject(cStatusDetails, forKey: "cStatusDetails")
-        aCoder.encodeObject(cStatusDate, forKey: "cStatusDate")
-        aCoder.encodeObject(cLocation, forKey: "cLocation")
+    func encodeWithCoder(_ aCoder: NSCoder) {
+        aCoder.encode(cStatus, forKey: "cStatus")
+        aCoder.encode(cStatusDetails, forKey: "cStatusDetails")
+        aCoder.encode(cStatusDate, forKey: "cStatusDate")
+        aCoder.encode(cLocation, forKey: "cLocation")
     }
 }

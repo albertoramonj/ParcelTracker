@@ -24,12 +24,12 @@ class CheckpointTableViewCell: UITableViewCell {
     
     func updateCell() {
         if row! % 2 == 0 {
-            contentView.backgroundColor = UIColor.grayColor().colorWithAlphaComponent(0.1)
+            contentView.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
         } else {
-            contentView.backgroundColor = UIColor.whiteColor()
+            contentView.backgroundColor = UIColor.white
         }
         
-        let pointSize = UIFont.preferredFontForTextStyle(UIFontTextStyleFootnote).pointSize
+        let pointSize = UIFont.preferredFont(forTextStyle: UIFontTextStyle.footnote).pointSize
         let customFontLight = UIFont(name: "HelveticaNeue-Light", size: pointSize)
         let customFontBold = UIFont(name: "HelveticaNeue-Bold", size: pointSize)
         dateLabel.font = customFontLight
